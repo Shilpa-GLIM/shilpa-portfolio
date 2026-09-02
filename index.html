@@ -113,6 +113,12 @@
   section + section{border-top:1px solid var(--line); padding-top:2.5rem; margin-top:1rem;}
 
   .eyebrow{color:var(--accent); font-size:.85rem; margin-bottom:.5rem;}
+  .status-pill{
+    display:inline-flex; align-items:center; gap:.45rem;
+    background:var(--accent-soft); border:1px solid var(--gold);
+    border-radius:20px; padding:.45rem 1rem; font-size:.85rem;
+    color:var(--gold); font-weight:600; margin-bottom:1.1rem;
+  }
   .lede{font-size:1.15rem; color:var(--ink-soft); max-width:60ch; line-height:1.6; margin-top:1rem; position:relative; padding-left:1.6rem;}
   .lede::before{
     content:"“";
@@ -204,6 +210,12 @@
   .project-card p + p{margin-top:.75rem;}
   .project-stats{display:flex; gap:.75rem; flex-wrap:wrap; margin:1rem 0;}
   .project-stats .pstat{background:var(--accent-soft); border-radius:8px; padding:.5rem .85rem; font-size:.82rem;}
+  .brief-grid{display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-top:1.25rem;}
+  .brief-col h4{font-size:.8rem; color:var(--gold); text-transform:uppercase; letter-spacing:.03em; margin-bottom:.7rem;}
+  .brief-col ul{margin:0; padding-left:0; list-style:none;}
+  .brief-col li{position:relative; padding-left:1.1rem; margin-bottom:.55rem; font-size:.88rem; line-height:1.5; color:var(--ink-soft);}
+  .brief-col li::before{content:""; position:absolute; left:0; top:.5em; width:5px; height:5px; background:var(--gold); transform:rotate(45deg);}
+  .brief-col li:last-child{margin-bottom:0;}
   .project-stats .pstat b{color:var(--accent); font-family:'Fraunces', serif; font-size:.95rem; display:block;}
   .project-link{display:inline-flex; align-items:center; gap:.4rem; margin-top:1.1rem; font-size:.88rem; font-weight:500; color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent);}
   .project-link:hover{opacity:.75;}
@@ -268,6 +280,7 @@
     nav button{white-space:nowrap;}
     #main{padding:2rem 1.5rem;}
     .card-grid{grid-template-columns:1fr;}
+    .brief-grid{grid-template-columns:1fr;}
     .deco-num{display:none;}
     .lede::before{font-size:2rem;}
   }
@@ -296,6 +309,7 @@
 
   <section id="home">
     <p class="eyebrow">Profile</p>
+    <div class="status-pill">🎓 Plot twist: currently pursuing my PGCM at Great Lakes Institute of Management, Gurgaon</div>
     <h1>Turning messy operations into <em>measurable outcomes</em></h1>
     <p class="lede">An impact-oriented business professional experienced in handling client relationships, optimizing processes and delivering technology-enabled solutions, aimed at driving business growth and elevating customer satisfaction.</p>
     <div class="stat-row">
@@ -411,6 +425,49 @@
   <section id="project">
     <h2 class="section-title">Projects<span class="deco-num">05</span></h2>
     <p class="section-sub">Applied analytics and consulting work from the PGCM program, from a live client engagement to independent data modelling.</p>
+
+    <div class="dash-card" id="messqCard">
+      <div class="dash-head">
+        <div>
+          <h3>MessQ — campus dining intelligence</h3>
+          <div class="meta">Operations Management · Great Lakes Institute of Management, Gurgaon · Team of 6 · Aug 2026</div>
+        </div>
+        <a class="live-link" href="https://messq-glim.netlify.app" target="_blank" rel="noopener">
+          <span class="live-dot"></span> Live app <i>&#8599;</i>
+        </a>
+      </div>
+
+      <p>A no-code operations management application for the B Block campus mess, built by prompting Claude Code end-to-end — no team member wrote source code directly. Modelled student arrivals as a non-homogeneous Poisson process to predict queue length and wait time, then translated the model into a student-facing "best time to arrive" recommendation and a management-facing set of costed interventions ranked by ROI.</p>
+
+      <div class="kpi-row">
+        <div class="kpi"><div class="kpi-num" data-target="5.7" data-decimals="1" data-suffix=" min">0</div><div class="kpi-label">Peak wait predicted</div></div>
+        <div class="kpi"><div class="kpi-num" data-target="82" data-suffix="%">0%</div><div class="kpi-label">Average utilisation</div></div>
+        <div class="kpi"><div class="kpi-num" data-target="138" data-suffix="">0</div><div class="kpi-label">Automated unit tests</div></div>
+        <div class="kpi"><div class="kpi-num" data-target="100" data-suffix="x+" data-decimals="0">0</div><div class="kpi-label">ROI, zero-cost levers</div></div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="chart-box">
+          <div class="chart-title">Peak wait by scenario</div>
+          <canvas id="chartScenarios" height="190"></canvas>
+        </div>
+        <div class="chart-box">
+          <div class="chart-title">Minutes saved per intervention</div>
+          <canvas id="chartInterventions" height="190"></canvas>
+        </div>
+      </div>
+
+      <p>The central finding: B Block doesn't have a permanent capacity problem — it has a transient unevenness problem caused by three overlapping cohort schedules inside a 135-minute lunch window. Zero-cost interventions (pooling the two counter queues, cutting bottleneck takt time) returned more minutes saved per rupee than paying for additional serving lines. The build includes a Control Tower dashboard with a control chart and a prototype camera-based footfall tripwire.</p>
+
+      <div class="method-pills">
+        <span class="pill">Poisson arrival modelling</span>
+        <span class="pill">Queueing theory</span>
+        <span class="pill">Capacity planning</span>
+        <span class="pill">Lean management</span>
+        <span class="pill">Control charts</span>
+        <span class="pill">Built with Claude Code</span>
+      </div>
+    </div>
 
     <div class="dash-card" id="dashCard">
       <div class="dash-head">
@@ -565,7 +622,7 @@
     if(dashInitialized) return;
     dashInitialized = true;
 
-    document.querySelectorAll('#dashCard .kpi-num').forEach(animateCount);
+    document.querySelectorAll('#dashCard .kpi-num, #messqCard .kpi-num').forEach(animateCount);
 
     if(typeof Chart === 'undefined'){
       document.querySelectorAll('.chart-box').forEach(box => {
@@ -615,6 +672,47 @@
         plugins: { legend: { display: false } },
         scales: {
           x: { beginAtZero: true, max: 100, grid: { color: gridColor }, ticks: { color: tickColor, callback: v => v + '%' } },
+          y: { grid: { display: false }, ticks: { color: tickColor } }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('chartScenarios'), {
+      type: 'bar',
+      data: {
+        labels: ['Downside', 'Base (calibrated)', 'Optimised'],
+        datasets: [{
+          label: 'Peak wait (min)',
+          data: [15, 5.7, 3.2],
+          backgroundColor: ['#D97C8C', '#A8608F', '#D9B54D']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: tickColor } },
+          y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: tickColor, callback: v => v + ' min' } }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('chartInterventions'), {
+      type: 'bar',
+      data: {
+        labels: ['Cut takt 20%', 'Pooled queue', 'Larger pans', 'Extend window', '+1 serving line', '+2 serving lines'],
+        datasets: [{
+          label: 'Minutes saved',
+          data: [2.1, 1.3, 0.7, 1.2, 2.2, 3.9],
+          backgroundColor: ['#D9B54D', '#D9B54D', '#A8608F', '#A8608F', '#A8608F', '#A8608F']
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: tickColor, callback: v => v + ' min' } },
           y: { grid: { display: false }, ticks: { color: tickColor } }
         }
       }
