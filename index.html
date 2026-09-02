@@ -42,7 +42,10 @@
   #sidebar{
     width:260px;
     flex-shrink:0;
-    background:var(--sidebar);
+    background:
+      radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+      var(--sidebar);
+    background-size: 16px 16px;
     color:var(--sidebar-text);
     padding:2.5rem 1.75rem;
     display:flex;
@@ -106,31 +109,81 @@
 
   /* Main */
   #main{flex:1; padding:3.5rem 4rem; max-width:920px;}
-  section{display:none;}
-  section.active{display:block; animation:fade .35s ease;}
-  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  section{padding-bottom:1rem; scroll-margin-top:1.5rem;}
+  section + section{border-top:1px solid var(--line); padding-top:2.5rem; margin-top:1rem;}
 
   .eyebrow{color:var(--accent); font-size:.85rem; margin-bottom:.5rem;}
-  .lede{font-size:1.15rem; color:var(--ink-soft); max-width:60ch; line-height:1.6; margin-top:1rem;}
+  .lede{font-size:1.15rem; color:var(--ink-soft); max-width:60ch; line-height:1.6; margin-top:1rem; position:relative; padding-left:1.6rem;}
+  .lede::before{
+    content:"“";
+    position:absolute; left:-.35rem; top:-.5rem;
+    font-family:'Fraunces', serif;
+    font-size:3rem;
+    color:var(--gold);
+    opacity:.5;
+  }
 
   .stat-row{display:flex; gap:1.25rem; margin-top:2.5rem; flex-wrap:wrap;}
-  .stat{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:1.1rem 1.4rem; min-width:140px;}
+  .stat{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:1.1rem 1.4rem; min-width:140px; transition:transform .18s ease, box-shadow .18s ease;}
+  .stat:hover{transform:translateY(-3px); box-shadow:0 10px 22px -14px rgba(107,44,87,0.35);}
   .stat .num{font-family:'Fraunces', serif; font-size:1.9rem; color:var(--accent);}
   .stat .label{font-size:.8rem; color:var(--ink-soft); margin-top:.2rem;}
 
-  h2.section-title{font-size:1.7rem; margin-bottom:2rem; padding-bottom:.85rem; border-bottom:2px solid var(--gold);}
+  h2.section-title{
+    font-size:1.7rem; margin-bottom:2rem; padding-bottom:.85rem;
+    border-bottom:2px solid var(--gold);
+    position:relative;
+  }
+  h2.section-title .deco-num{
+    position:absolute;
+    right:0; top:-2.6rem;
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-style:italic;
+    font-size:4.2rem;
+    color:var(--gold);
+    opacity:0.14;
+    line-height:1;
+    pointer-events:none;
+    user-select:none;
+  }
+  h2.section-title em{color:var(--gold); font-style:italic;}
+
+  .section-sub{color:var(--ink-soft); font-size:.95rem; max-width:60ch; margin:-1.4rem 0 2rem; line-height:1.55;}
+
+  .timeline{position:relative; margin-left:.5rem; padding-left:2rem;}
+  .timeline::before{content:""; position:absolute; left:0; top:.35rem; bottom:.35rem; width:2px; background:var(--line);}
+  .timeline-item{position:relative; padding-bottom:2.1rem;}
+  .timeline-item:last-child{padding-bottom:0;}
+  .timeline-dot{
+    position:absolute; left:-2.09rem; top:.28rem;
+    width:12px; height:12px; border-radius:50%;
+    background:var(--surface); border:2px solid var(--gold);
+  }
+  .timeline-dot.filled{background:var(--gold);}
+  .timeline-year{font-family:'Fraunces', serif; color:var(--gold); font-size:.85rem; font-weight:600; margin-bottom:.2rem;}
+  .timeline-title{font-weight:600; font-size:1rem; margin-bottom:.2rem;}
+  .timeline-desc{color:var(--ink-soft); font-size:.88rem; line-height:1.5;}
 
   .job{margin-bottom:2.5rem; border-left:2px solid var(--line); padding-left:1.5rem;}
   .job-head{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:.5rem;}
   .job-title{font-size:1.1rem; font-weight:600;}
   .job-org{color:var(--accent); font-weight:500;}
   .job-date{color:var(--ink-soft); font-size:.85rem; white-space:nowrap;}
-  .job ul{margin:.75rem 0 0; padding-left:1.1rem;}
-  .job li{margin-bottom:.5rem; line-height:1.55;}
+  .job ul{margin:.75rem 0 0; padding-left:0; list-style:none;}
+  .job li{margin-bottom:.6rem; line-height:1.55; position:relative; padding-left:1.3rem;}
+  .job li::before{
+    content:"";
+    position:absolute; left:0; top:.5em;
+    width:6px; height:6px;
+    background:var(--gold);
+    transform:rotate(45deg);
+  }
   .job li b{color:var(--ink);}
 
   .skill-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:.75rem; margin-top:1.5rem;}
-  .skill{background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:.85rem 1rem; font-size:.92rem; font-weight:500;}
+  .skill{background:var(--surface); border:1px solid var(--line); border-left:3px solid transparent; border-radius:8px; padding:.85rem 1rem; font-size:.92rem; font-weight:500; transition:transform .16s ease, border-color .16s ease;}
+  .skill:hover{transform:translateX(3px); border-left-color:var(--gold);}
 
   table{width:100%; border-collapse:collapse; margin-top:1.5rem; background:var(--surface); border:1px solid var(--line); border-radius:10px; overflow:hidden;}
   th,td{text-align:left; padding:.75rem 1rem; font-size:.9rem; border-bottom:1px solid var(--line);}
@@ -215,6 +268,8 @@
     nav button{white-space:nowrap;}
     #main{padding:2rem 1.5rem;}
     .card-grid{grid-template-columns:1fr;}
+    .deco-num{display:none;}
+    .lede::before{font-size:2rem;}
   }
 </style>
 </head>
@@ -226,12 +281,13 @@
   <div class="role">Business &amp; technology consultant</div>
   <nav id="nav">
     <button data-target="home"><span class="idx">01</span>Home</button>
-    <button data-target="experience"><span class="idx">02</span>Experience</button>
-    <button data-target="skills"><span class="idx">03</span>Skills</button>
-    <button data-target="project"><span class="idx">04</span>Projects</button>
-    <button data-target="education"><span class="idx">05</span>Education</button>
-    <button data-target="recognition"><span class="idx">06</span>Recognition</button>
-    <button data-target="contact"><span class="idx">07</span>Contact</button>
+    <button data-target="journey"><span class="idx">02</span>Journey</button>
+    <button data-target="experience"><span class="idx">03</span>Experience</button>
+    <button data-target="skills"><span class="idx">04</span>Skills</button>
+    <button data-target="project"><span class="idx">05</span>Projects</button>
+    <button data-target="education"><span class="idx">06</span>Education</button>
+    <button data-target="recognition"><span class="idx">07</span>Recognition</button>
+    <button data-target="contact"><span class="idx">08</span>Contact</button>
   </nav>
   <div class="foot">Based in India<br>Open to consulting &amp; analytics roles</div>
 </aside>
@@ -240,7 +296,7 @@
 
   <section id="home">
     <p class="eyebrow">Profile</p>
-    <h1>Turning messy operations into measurable outcomes</h1>
+    <h1>Turning messy operations into <em>measurable outcomes</em></h1>
     <p class="lede">An impact-oriented business professional experienced in handling client relationships, optimizing processes and delivering technology-enabled solutions, aimed at driving business growth and elevating customer satisfaction.</p>
     <div class="stat-row">
       <div class="stat"><div class="num">20%</div><div class="label">Faster issue resolution</div></div>
@@ -250,8 +306,58 @@
     </div>
   </section>
 
+  <section id="journey">
+    <h2 class="section-title">Career journey<span class="deco-num">02</span></h2>
+    <p class="section-sub">The path from school through engineering, into consulting and technology delivery, and now back into a postgraduate management program.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2014</div>
+        <div class="timeline-title">10th grade, 10/10 CGPA</div>
+        <div class="timeline-desc">Adarsh Vidya Kendra, Tamil Nadu.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2016</div>
+        <div class="timeline-title">12th grade, 97.91%</div>
+        <div class="timeline-desc">Adarsh Vidya Kendra, Tamil Nadu — moved on to engineering the same year.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2016 – 2020</div>
+        <div class="timeline-title">B.E, Computer Science</div>
+        <div class="timeline-desc">Madras Institute of Technology, Chennai. Took on student leadership roles alongside coursework — Vice Chair Person of the Personality Development Association and College Dance Team Captain.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot filled"></div>
+        <div class="timeline-year">2020 – 2023</div>
+        <div class="timeline-title">Senior Consultant, LTM</div>
+        <div class="timeline-desc">First full-time role — moved from analysing stakeholder requirements to owning round-the-clock service management and compliance for business-critical applications, hitting 99.5% uptime and 100% policy adherence.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2022</div>
+        <div class="timeline-title">Best Business Account award</div>
+        <div class="timeline-desc">LTM's quarterly recognition for account performance.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot filled"></div>
+        <div class="timeline-year">2024</div>
+        <div class="timeline-title">Senior Associate, Dedalus DH Australia</div>
+        <div class="timeline-desc">Moved into healthcare technology, automating workflows with Azure Logic Apps and cutting operational downtime by 15%.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot filled"></div>
+        <div class="timeline-year">2026 – present</div>
+        <div class="timeline-title">PGCM, Great Lakes Institute of Management</div>
+        <div class="timeline-desc">Back in the classroom to formalise the consulting and analytics skills built on the job — live client work with Bayer, an independent HR analytics build, an economics pricing project, and a Strategy Showdown win along the way.</div>
+      </div>
+    </div>
+  </section>
+
   <section id="experience">
-    <h2 class="section-title">Professional experience</h2>
+    <h2 class="section-title">Professional experience<span class="deco-num">03</span></h2>
+    <p class="section-sub">Two roles across healthcare technology and energy services, each centred on turning operational friction into measurable process gains.</p>
 
     <div class="job">
       <div class="job-head">
@@ -280,7 +386,8 @@
   </section>
 
   <section id="skills">
-    <h2 class="section-title">Key skills</h2>
+    <h2 class="section-title">Key skills<span class="deco-num">04</span></h2>
+    <p class="section-sub">A working toolkit spanning stakeholder-facing consulting skills and the technical tools used to back them with data.</p>
     <div class="skill-grid">
       <div class="skill">Client management</div>
       <div class="skill">Structured problem solving</div>
@@ -302,7 +409,8 @@
   </section>
 
   <section id="project">
-    <h2 class="section-title">Projects</h2>
+    <h2 class="section-title">Projects<span class="deco-num">05</span></h2>
+    <p class="section-sub">Applied analytics and consulting work from the PGCM program, from a live client engagement to independent data modelling.</p>
 
     <div class="dash-card" id="dashCard">
       <div class="dash-head">
@@ -369,7 +477,8 @@
   </section>
 
   <section id="education">
-    <h2 class="section-title">Qualifications</h2>
+    <h2 class="section-title">Qualifications<span class="deco-num">06</span></h2>
+    <p class="section-sub">An academic path from computer science into management, now being extended with a postgraduate consulting program.</p>
     <table>
       <thead>
         <tr><th>Degree</th><th>Institute / university, city</th><th>%/CGPA</th><th>Year</th></tr>
@@ -384,7 +493,8 @@
   </section>
 
   <section id="recognition">
-    <h2 class="section-title">Recognition &amp; involvement</h2>
+    <h2 class="section-title">Recognition &amp; involvement<span class="deco-num">07</span></h2>
+    <p class="section-sub">Certifications, competition wins, and leadership roles picked up alongside the day-to-day work.</p>
     <div class="card-grid">
       <div class="card">
         <h3>Certificates</h3>
@@ -409,7 +519,8 @@
   </section>
 
   <section id="contact">
-    <h2 class="section-title">Get in touch</h2>
+    <h2 class="section-title">Get in touch<span class="deco-num">08</span></h2>
+    <p class="section-sub">Open to consulting and analytics roles — reach out directly or connect on LinkedIn.</p>
     <div class="contact-box">
       <div class="field">
         <div class="field-label">Email</div>
@@ -511,23 +622,35 @@
   }
 
   function showSection(id, updateHash){
-    sections.forEach(s => s.classList.toggle('active', s.id === id));
-    buttons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+    const el = document.getElementById(id);
+    if(el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     if(updateHash) history.pushState(null, '', '#' + id);
-    if(id === 'project') requestAnimationFrame(initDashboard);
   }
 
   buttons.forEach(btn => {
     btn.addEventListener('click', () => showSection(btn.dataset.target, true));
   });
 
-  window.addEventListener('popstate', () => {
-    const id = location.hash.replace('#','') || 'home';
-    showSection(id, false);
-  });
+  const projectSection = document.getElementById('project');
+  const dashObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if(entry.isIntersecting) initDashboard(); });
+  }, { threshold: 0.15 });
+  dashObserver.observe(projectSection);
 
-  const initial = location.hash.replace('#','') || 'home';
-  showSection(document.getElementById(initial) ? initial : 'home', false);
+  const spy = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        buttons.forEach(b => b.classList.toggle('active', b.dataset.target === entry.target.id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => spy.observe(s));
+
+  if(location.hash){
+    const id = location.hash.replace('#','');
+    const el = document.getElementById(id);
+    if(el) requestAnimationFrame(() => el.scrollIntoView({ block: 'start' }));
+  }
 </script>
 
 </body>
